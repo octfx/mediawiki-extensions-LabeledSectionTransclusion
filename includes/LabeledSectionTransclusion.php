@@ -17,14 +17,16 @@ class LabeledSectionTransclusion {
 	 * @suppress PhanUndeclaredProperty Use of Parser->mTemplatePath
 	 */
 	private static function open( $parser, $part1 ) {
+		$pathKey = sprintf( '%s%s', $parser->getRevisionId() ?? -1, $part1 );
+
 		// Infinite loop test
-		if ( isset( $parser->mTemplatePath[$part1] ) ) {
+		if ( isset( $parser->mTemplatePath[$pathKey] ) ) {
 			wfDebug( __METHOD__ . ": template loop broken at '$part1'\n" );
 			return false;
-		} else {
-			$parser->mTemplatePath[$part1] = 1;
-			return true;
 		}
+
+		$parser->mTemplatePath[$part1] = 1;
+		return true;
 	}
 
 	/**
