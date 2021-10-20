@@ -17,6 +17,10 @@ class LabeledSectionTransclusion {
 	 * @suppress PhanUndeclaredProperty Use of Parser->mTemplatePath
 	 */
 	private static function open( $parser, $part1 ) {
+		if ( !isset( $parser->mTemplatePath ) ) {
+			$parser->mTemplatePath = [];
+		}
+
 		$pathKey = sprintf( '%s%s', $parser->getRevisionId() ?? -1, $part1 );
 
 		// Infinite loop test
